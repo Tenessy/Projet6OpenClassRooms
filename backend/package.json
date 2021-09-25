@@ -18,7 +18,8 @@
     "mongoose-unique-validator": "^2.0.3",
     "multer": "^1.4.3",
     "node-sass": "^6.0.1",
-    "save": "^2.4.0"
+    "save": "^2.4.0",
+    "validator": "^13.6.0"
   },
   "devDependencies": {
     "@angular/cli": "^12.2.5"

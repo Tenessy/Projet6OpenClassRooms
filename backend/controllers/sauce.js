@@ -1,5 +1,6 @@
 const Sauce = require('../models/sauce');
 const fs = require('fs');
+const { Z_NO_COMPRESSION } = require('zlib');
 
 exports.createSauce = (req, res, next) => {
     const SauceObject = JSON.parse(req.body.sauce);
@@ -46,25 +47,40 @@ exports.modifyOneSauce = (req, res) => {
     Sauce.findOne({ _id: req.params.id })
         .then(sauce => {
             let sauceObject;
+            const testBody = () => {
+                const objSauce = req.body;
+                const regex1 = /^([\w\.\_\-\ ])+$/;
+                return regex1.test(objSauce.name) && regex1.test(objSauce.manufacturer)
+                    && regex1.test(objSauce.description) && regex1.test(objSauce.mainPepper);
+            }
             if (req.file !== undefined) {
-                const filename = sauce.imageUrl.split('/images')[1];
-                fs.unlink(`images/${filename}`, (err) => {
-                    if (err) {
-                        return console.log(err);
+                if (!testBody()) {
+                    res.status(400).json({ error: 'Les données ne sont pas valides !' })
+                }
+                else if (testBody() === true) {
+                    const filename = sauce.imageUrl.split('/images')[1];
+                    fs.unlink(`images/${filename}`, (err) => {
+                        if (err) {
+                            return console.log(err);
+                        }
+                    })
+                    sauceObject = {
+                        ...JSON.parse(req.body.sauce),
+                        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
                     }
-                });
-                sauceObject = {
-                    ...JSON.parse(req.body.sauce),
-                    imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
                 }
             }
-            else {
-                sauceObject = {
-                    ...req.body
+            if (req.file === undefined) {
+                if (!testBody()) {
+                    res.status(400).json({ error: 'Les données ne sont pas valides !' })
+                }
+                else if (testBody() === true) {
+                    sauceObject = { ...req.body }
                 }
             }
+
             Sauce.updateOne({ _id: req.params.id }, { ...sauceObject, _id: req.params.id })
-                .then(() => res.status(200).json({ message: 'La sauce a bien été mise à jour !' }))
+                .then(() => res.status(200).json({ message: 'La sauce a bien été modifié !' }))
                 .catch(error => res.status(400).json({ error }));
 
         })
