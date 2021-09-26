@@ -12,7 +12,6 @@ const sauceSchema = mongoose.Schema({
     name: { type: String, required: true, validate: [validateSauce] },
     manufacturer: {
         type: String,
-        isAsync: false,
         validate: [validateSauce],
         required: true,
     },

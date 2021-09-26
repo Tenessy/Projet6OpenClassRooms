@@ -7,11 +7,6 @@ const validateEmail = function (email) {
     return reg.test(email)
 };
 
-const validatePassword = function (mdp) {
-    var reg = /^[0-9]{3}/;
-    return reg.test(mdp);
-};
-
 const userSchema = mongoose.Schema({
     email: {
         type: String,
@@ -22,7 +17,7 @@ const userSchema = mongoose.Schema({
     password: {
         type: String,
         required: true,
-       // validate: [validatePassword, 'Le mot de passe n\'est pas valide'],
+        min: [6, 'Veuillez utilisez minimun 6 caractères'],
     },
 });
 

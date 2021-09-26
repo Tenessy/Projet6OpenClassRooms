@@ -1,6 +1,5 @@
 const Sauce = require('../models/sauce');
 const fs = require('fs');
-const { Z_NO_COMPRESSION } = require('zlib');
 
 exports.createSauce = (req, res, next) => {
     const SauceObject = JSON.parse(req.body.sauce);
