@@ -3,7 +3,7 @@ const mongooseErrors = require('mongoose-errors');
 const validator = require('validator');
 
 const validateSauce = function (sauce) {
-    const reg = /^[\w\.]+$/;
+    const reg = /^[-a-zA-Zàâäéèêëïîôöùûüç0-9\ \,]+$/;
     return reg.test(sauce);
 }
 
