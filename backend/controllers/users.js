@@ -8,7 +8,7 @@ exports.signUp = (req, res) => {
             if (email) {
                 return res.status(401).json({ message: 'Cet email existe déjà dans la bdd !' });
             }
-            bcrypt.hash(req.body.password, 12)
+            bcrypt.hash(req.body.password, 10)
                 .then(hash => {
                     const user = new User({
                         email: req.body.email,
