@@ -4,7 +4,6 @@ const path = require('path');
 
 const sauceRoutes = require('./routes/sauce');
 const userRoutes = require('./routes/user');
-
 const mongoose = require('mongoose');
 
 mongoose.connect('mongodb+srv://ten21:SwAmYwLgz531C2OW@cluster0.tqnbe.mongodb.net/Go-fullstack?retryWrites=true&w=majority',
