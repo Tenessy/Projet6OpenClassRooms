@@ -15,7 +15,16 @@ exports.createSauce = (req, res, next) => {
     });
     sauce.save()
         .then(() => res.status(201).json({ message: 'La sauce a été créé !' }))
-        .catch(error => res.status(400).json({ message: error }))
+        .catch((error) => {
+            if (req.file) {
+                fs.unlink(`images/${req.file.filename}`, (err) => {
+                    if (err) {
+                        return console.log(err);
+                    }
+                });
+            }
+            res.status(400).json({ message: error })
+        });
 };
 
 exports.sauceNotFind = (req, res, next) => {

@@ -10,9 +10,11 @@ mongoose.connect('mongodb+srv://ten21:SwAmYwLgz531C2OW@cluster0.tqnbe.mongodb.ne
     {
         useNewUrlParser: true,
         useUnifiedTopology: true
+
     })
     .then(() => console.log('Connexion à MongoDB réussie !'))
     .catch(() => console.log('Connexion à MongoDB échouée !'));
+
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
